@@ -17,7 +17,7 @@
 
 ```bash
 cd site && quick serve          # local dev (Shopify Quick)
-node --test site/tests/         # engine tests
+node --test 'site/tests/*.test.js'   # engine tests
 ```
 
 ## Deploy
