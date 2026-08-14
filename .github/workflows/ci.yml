@@ -1,0 +1,51 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Least privilege: CI only reads the repo.
+permissions:
+  contents: read
+
+# Cancel superseded runs on the same ref.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    # Pinned runner image, not *-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+
+      - name: Engine unit tests
+        run: node --test site/tests/
+
+      - name: JS syntax check
+        run: |
+          node --check site/engine.js
+          node --check site/app.js
+          node --check site/presets.js
+
+      - name: Script sanity (no execution, parse only)
+        run: |
+          python3 -m py_compile scripts/index-wods.py
+          bash -n scripts/fetch-chalkitpro.sh
+
+      - name: No secrets or personal data committed
+        run: |
+          set -euo pipefail
+          # data/ must stay untracked (personal WOD corpus)
+          test -z "$(git ls-files data/)" || { echo 'data/ files are tracked'; exit 1; }
+          # no JWTs anywhere in tracked files
+          ! git grep -InE 'eyJ[A-Za-z0-9_-]{20,}\.' -- . || { echo 'possible JWT committed'; exit 1; }
