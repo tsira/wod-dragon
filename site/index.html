@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WOD DRAGON</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="wrap">
+    <h1 class="wordmark">WOD DRAGON</h1>
+    <div class="tagline">/// STRENGTH + CONDITIONING TIMER ///</div>
+
+    <div class="cols">
+      <!-- Mission config -->
+      <div class="panel" id="config">
+        <h2>MISSION CONFIG</h2>
+        <div id="presets"></div>
+        <div class="tabs">
+          <button class="tab active" data-mode="enmom">ENOM</button>
+          <button class="tab" data-mode="fortime">FOR TIME</button>
+          <button class="tab" data-mode="amrap">AMRAP</button>
+          <button class="tab" data-mode="setsrest">SETS+REST</button>
+        </div>
+        <div id="fields"></div>
+        <div class="toggles">
+          <label class="tgl"><input type="checkbox" id="c-sound" checked> SOUND</label>
+          <label class="tgl"><input type="checkbox" id="c-vibe" checked> VIBRATION</label>
+          <label class="tgl"><input type="checkbox" id="c-end" checked> 3-2-1 INTO NEXT SEGMENT</label>
+          <label class="tgl"><input type="checkbox" id="c-start"> BLAST AT SEGMENT START</label>
+          <label class="tgl"><input type="checkbox" id="c-half"> HALFWAY ALERT</label>
+        </div>
+        <button class="engage" id="engage">ENGAGE</button>
+      </div>
+
+      <!-- Device previews -->
+      <div id="devices">
+        <div>
+          <div class="device-title">HANDSET</div>
+          <div class="phone state-work" id="phone">
+            <div class="screen">
+              <button class="abort hidden">ABORT</button>
+              <div class="face">
+                <div class="seg-label">STANDBY</div>
+                <div class="digits">0:00</div>
+                <div class="station"></div>
+                <div class="round-chip" style="visibility:hidden"></div>
+                <div class="total-elapsed"></div>
+              </div>
+              <div class="tapzone" style="visibility:hidden"></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="device-title">WRIST UNIT</div>
+          <div class="watch state-work" id="watch">
+            <div class="screen">
+              <svg class="ring" viewBox="0 0 100 100">
+                <circle class="track" cx="50" cy="50" r="47"></circle>
+                <circle class="bar" cx="50" cy="50" r="47"></circle>
+              </svg>
+              <button class="abort hidden">ABORT</button>
+              <div class="face">
+                <div class="seg-label">STANDBY</div>
+                <div class="digits">0:00</div>
+                <div class="station"></div>
+                <div class="round-chip" style="visibility:hidden"></div>
+              </div>
+              <div class="tapzone" style="visibility:hidden"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mission log -->
+      <div class="panel" id="log">
+        <h2>MISSION LOG</h2>
+        <ul></ul>
+      </div>
+    </div>
+  </div>
+
+  <script src="presets.js"></script>
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

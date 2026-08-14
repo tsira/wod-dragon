@@ -1,0 +1,9 @@
+# Personal gym data + generated indexes (fetch with scripts/index-wods.py)
+data/
+
+# OS / editors
+.DS_Store
+*.swp
+
+# deps (none yet, future-proofing)
+node_modules/
