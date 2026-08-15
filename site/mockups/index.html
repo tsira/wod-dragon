@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WOD DRAGON — Design Explorations</title>
+<style>
+  :root { --void:#0d0221; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:#08010f; color:#eee; font-family:ui-monospace,Menlo,monospace; padding:28px 16px 80px; }
+  h1 { text-align:center; letter-spacing:.2em; font-size:22px; margin-bottom:4px; color:#00fff9; text-shadow:0 0 12px #00fff9; }
+  .sub { text-align:center; color:#ff2ec4; font-size:11px; letter-spacing:.3em; margin-bottom:30px; }
+  .grid { display:flex; flex-wrap:wrap; gap:26px; justify-content:center; max-width:1280px; margin:0 auto; }
+  .card { width:360px; }
+  .card h2 { font-size:13px; letter-spacing:.2em; margin-bottom:2px; }
+  .card p { font-size:11px; color:#999; line-height:1.5; margin:6px 0 10px; text-transform:none; }
+  .frame { height:340px; border-radius:18px; overflow:hidden; position:relative; border:3px solid #333; background:#000; }
+  .tag { display:inline-block; font-size:9px; letter-spacing:.15em; padding:2px 7px; border-radius:3px; margin-right:4px; }
+
+  /* ============ A. BLOOD DRAGON NEON (current) ============ */
+  .bd { background:var(--void); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; }
+  .bd::after { content:""; position:absolute; inset:0; pointer-events:none;
+    background:repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 1px, transparent 1px 3px); }
+  .bd .label { color:#00fff9; letter-spacing:.3em; font-size:13px; text-shadow:0 0 8px #00fff9; }
+  .bd .digits { font-size:66px; font-weight:700; color:#00fff9; text-shadow:0 0 12px #00fff9,0 0 40px #00fff9; font-variant-numeric:tabular-nums; }
+  .bd .station { color:#ff9e00; font-size:11px; text-shadow:0 0 6px #ff9e00; }
+  .bd .ring { position:absolute; inset:14px; border-radius:50%; border:3px solid rgba(122,4,235,.35); }
+  .bd .ring i { position:absolute; inset:-3px; border-radius:50%; border:3px solid transparent;
+    border-top-color:#00fff9; filter:drop-shadow(0 0 6px #00fff9); animation:spin 4s linear infinite; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+
+  /* ============ B. VHS CAMCORDER ============ */
+  .vhs { background:#050505; color:#f2f2f2; font-family:"Courier New",monospace; padding:16px; }
+  .vhs .rec { position:absolute; top:14px; left:16px; font-size:14px; letter-spacing:.2em; color:#ff3b30; }
+  .vhs .rec::before { content:"●"; margin-right:8px; animation:blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity:0; } }
+  .vhs .batt { position:absolute; top:14px; right:16px; font-size:11px; color:#ccc; }
+  .vhs .digits { position:absolute; top:44%; left:0; right:0; text-align:center; font-size:58px; font-weight:bold;
+    text-shadow:2px 0 rgba(255,0,60,.55), -2px 0 rgba(0,255,249,.55); }
+  .vhs .scene { position:absolute; bottom:52px; left:16px; font-size:13px; }
+  .vhs .stamp { position:absolute; bottom:16px; left:16px; font-size:11px; color:#bbb; }
+  .vhs .play { position:absolute; bottom:16px; right:16px; font-size:11px; }
+  .vhs .track { position:absolute; left:0; right:0; height:9px; background:rgba(255,255,255,.14);
+    animation:track 6s linear infinite; }
+  @keyframes track { 0%{top:110%} 100%{top:-10%} }
+
+  /* ============ C. BOSS FIGHT ============ */
+  .boss { background:#1b0b38; image-rendering:pixelated; padding:18px;
+    font-family:"Courier New",monospace; font-weight:bold; }
+  .boss .stage { text-align:center; color:#ffe14d; font-size:15px; letter-spacing:.25em; text-shadow:2px 2px #7a04eb; }
+  .boss .bossname { text-align:center; color:#ff2079; font-size:12px; margin-top:4px; letter-spacing:.15em; }
+  .boss .hpwrap { margin:14px 6px 0; border:3px solid #fff; padding:3px; background:#000; }
+  .boss .hp { height:20px; background:linear-gradient(180deg,#ff5d5d,#c40023);
+    animation:hp 8s linear infinite; box-shadow:inset 0 -6px rgba(0,0,0,.35); }
+  @keyframes hp { 0%{width:96%} 100%{width:4%} }
+  .boss .digits { text-align:center; font-size:56px; color:#fff; margin-top:26px; text-shadow:3px 3px #7a04eb; }
+  .boss .combo { position:absolute; right:16px; bottom:44px; color:#ffe14d; font-size:15px;
+    text-shadow:2px 2px #c40023; animation:pop .8s ease infinite alternate; }
+  @keyframes pop { from{transform:scale(1)} to{transform:scale(1.14)} }
+  .boss .hint { position:absolute; bottom:14px; left:0; right:0; text-align:center; color:#9ad7ff; font-size:10px; letter-spacing:.2em; }
+
+  /* ============ D. PLATE STACK ============ */
+  .plate { background:linear-gradient(180deg,#15161a,#0a0a0c); padding:16px; }
+  .plate .flip { display:flex; justify-content:center; gap:6px; margin-top:26px; }
+  .plate .flip span { background:linear-gradient(180deg,#2a2c33 49%,#1d1f24 51%); border-radius:8px;
+    font-size:52px; font-weight:700; color:#f5f5f0; padding:8px 12px; box-shadow:0 6px 14px rgba(0,0,0,.6);
+    border-top:1px solid #4a4d57; font-variant-numeric:tabular-nums; }
+  .plate .bar { position:absolute; bottom:66px; left:8%; right:8%; height:10px; border-radius:5px;
+    background:linear-gradient(180deg,#c9ccd4,#7d8089); box-shadow:0 3px 8px rgba(0,0,0,.7); }
+  .plate .p { position:absolute; bottom:36px; width:16px; height:70px; border-radius:4px;
+    background:linear-gradient(180deg,#c40023,#7d0016); border:1px solid #000; box-shadow:2px 0 5px rgba(0,0,0,.6); }
+  .plate .p.b { background:linear-gradient(180deg,#1e5bd6,#123a8c); }
+  .plate .p.new { animation:load 2.4s ease-in-out infinite; }
+  @keyframes load { 0%{transform:translateX(150px); opacity:0} 30%{transform:none; opacity:1} 100%{transform:none; opacity:1} }
+  .plate .cap { position:absolute; bottom:14px; left:0; right:0; text-align:center; color:#8e939e; font-size:11px; letter-spacing:.2em; }
+  .plate .round { text-align:center; color:#c9ccd4; letter-spacing:.3em; font-size:12px; }
+
+  /* ============ E. TACTICAL RADAR (watch-first) ============ */
+  .radarwrap { display:flex; align-items:center; justify-content:center; background:#02120c; }
+  .radar { width:280px; height:280px; border-radius:50%; position:relative; border:4px solid #0c3;
+    box-shadow:0 0 24px rgba(0,255,102,.35), inset 0 0 40px rgba(0,255,102,.12); background:
+    radial-gradient(circle, transparent 62%, rgba(0,255,102,.08) 63%),
+    repeating-radial-gradient(circle, transparent 0 44px, rgba(0,255,102,.18) 44px 45px); }
+  .radar .sweep { position:absolute; inset:0; border-radius:50%; overflow:hidden; }
+  .radar .sweep i { content:""; position:absolute; left:50%; top:50%; width:50%; height:50%;
+    transform-origin:0 0; background:conic-gradient(from 0deg, rgba(0,255,102,.5), transparent 70deg);
+    animation:spin 3s linear infinite; }
+  .radar .digits { position:absolute; top:38%; left:0; right:0; text-align:center; font-size:44px;
+    color:#7dffb0; font-weight:700; text-shadow:0 0 10px #0c3; font-variant-numeric:tabular-nums; }
+  .radar .label { position:absolute; top:26%; left:0; right:0; text-align:center; color:#0c3; font-size:10px; letter-spacing:.3em; }
+  .radar .next { position:absolute; top:60%; left:0; right:0; text-align:center; color:#ffe14d; font-size:10px; letter-spacing:.1em; }
+  .radar .blip { position:absolute; width:9px; height:9px; border-radius:50%; background:#7dffb0;
+    box-shadow:0 0 8px #0c3; animation:blink 2s steps(1) infinite; }
+
+  .notes { max-width:900px; margin:44px auto 0; font-size:12px; color:#aaa; line-height:1.7; }
+  .notes h3 { color:#00fff9; letter-spacing:.2em; font-size:13px; margin:18px 0 6px; }
+</style>
+</head>
+<body>
+  <h1>WOD DRAGON — DESIGN EXPLORATIONS</h1>
+  <div class="sub">FIVE DIRECTIONS · MID-WORKOUT FACE · FOR DISCUSSION</div>
+
+  <div class="grid">
+    <div class="card">
+      <h2 style="color:#00fff9">A · BLOOD DRAGON NEON <span class="tag" style="background:#123">current</span></h2>
+      <p>The shipped v0 baseline: state-coded neon, CRT scanlines, glow digits, progress ring. Reference point for judging the others.</p>
+      <div class="frame bd">
+        <div class="ring"><i></i></div>
+        <div class="label">ROUND 3/8</div>
+        <div class="digits">1:47.3</div>
+        <div class="station">MIN 2: 12 RUSSIAN KB SWINGS</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="color:#ff3b30">B · VHS CAMCORDER</h2>
+      <p>Your workout is being <em>recorded</em>. REC dot, chromatic-aberration digits, tracking glitch, timestamp. Rounds are scenes; the mission log becomes a tape library. Cheapest big personality-per-pixel.</p>
+      <div class="frame vhs">
+        <div class="track"></div>
+        <div class="rec">REC</div>
+        <div class="batt">▮▮▮▯ 78%</div>
+        <div class="digits">12:47</div>
+        <div class="scene">SCENE 3 — "BASES LOADED"</div>
+        <div class="stamp">AUG 15 2026&nbsp;&nbsp;PM 5:32</div>
+        <div class="play">SP ▶</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="color:#ffe14d">C · BOSS FIGHT</h2>
+      <p>The WOD is a boss; its HP bar is your remaining work. Round taps land COMBO hits, final 3s shakes the screen, finishing = K.O. Turns "how much longer" into a game state you *want* to check. Most Not-Boring-spirited: time as an enemy you beat.</p>
+      <div class="frame boss">
+        <div class="stage">STAGE 3 / 8</div>
+        <div class="bossname">☠ "BASES LOADED" ☠</div>
+        <div class="hpwrap"><div class="hp"></div></div>
+        <div class="digits">1:47</div>
+        <div class="combo">4 HIT COMBO!</div>
+        <div class="hint">TAP = ATTACK (ROUND)</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="color:#c9ccd4">D · PLATE STACK</h2>
+      <p>Skeuomorphic gym-metal: flip-clock digits, and every completed round slides a plate onto a barbell at the bottom. Progress is physical mass you've moved. Egg-timer honesty, Not Boring's "time as object" translated to iron.</p>
+      <div class="frame plate">
+        <div class="round">ROUND 3 OF 8</div>
+        <div class="flip"><span>1</span><span>:</span><span>4</span><span>7</span></div>
+        <div class="bar"></div>
+        <div class="p" style="left:12%"></div>
+        <div class="p b" style="left:17%"></div>
+        <div class="p" style="right:17%"></div>
+        <div class="p b new" style="right:12%"></div>
+        <div class="cap">EACH ROUND LOADS A PLATE</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="color:#7dffb0">E · TACTICAL RADAR</h2>
+      <p>Watch-first: the sweep hand IS the interval clock (one rotation = one minute), stations are blips you're approaching. Ambient-mode friendly (sweep pauses, blips stay). Closest sibling to Blood Dragon lore, and the only one designed circle-out.</p>
+      <div class="frame radarwrap">
+        <div class="radar">
+          <div class="sweep"><i></i></div>
+          <div class="label">ROUND 3/8 — WORK</div>
+          <div class="digits">0:13</div>
+          <div class="next">NEXT BLIP: 12 BOX STEP-UPS</div>
+          <div class="blip" style="top:18%;left:64%"></div>
+          <div class="blip" style="top:64%;left:78%;animation-delay:.7s"></div>
+          <div class="blip" style="top:74%;left:28%;animation-delay:1.3s"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="notes">
+    <h3>SHARED PRINCIPLES (ALL DIRECTIONS)</h3>
+    Glance rule: state readable in &lt;300ms from 60cm, sweaty, mid-rep. Digits stay tabular and huge; color+shape encode state (never color alone); final-3s always gets motion + red regardless of theme. Cues (audio/haptic) are theme-flavored but structurally identical.
+    <h3>NOT BORING TAKEAWAYS APPLIED</h3>
+    Time as a single honest dimension (HP bar, plate mass, tape footage) · timer "flips" at the cap and counts overtime up (their stopwatch trick — worth adopting in the engine for capped For Time) · loud, readable, personality over chrome.
+    <h3>DISCUSSION QUESTIONS</h3>
+    1. One theme or user-selectable skins over the same engine (the CSS is already token-driven)? 2. Which direction survives the round watch best — E is native, C/D need rework. 3. Does playful (C) fight the "no pause, no mercy" ethos or amplify it?
+  </div>
+</body>
+</html>

@@ -78,6 +78,11 @@ button.preset {
   border-radius: 4px; cursor: pointer;
 }
 button.preset.active { border-style: solid; box-shadow: 0 0 10px rgba(255,158,0,.7), inset 0 0 10px rgba(255,158,0,.15); }
+.hero-group { margin-top: 10px; }
+.hero-group summary { cursor: pointer; list-style: none; }
+.hero-group summary::-webkit-details-marker { display: none; }
+.hero-group .preset { border-color: var(--neon-magenta); color: var(--neon-magenta); }
+.hero-group .preset.active { box-shadow: 0 0 10px rgba(255,46,196,.7), inset 0 0 10px rgba(255,46,196,.15); }
 .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
 .tab {
   font-family: var(--mono); text-transform: uppercase; letter-spacing: .12em; font-size: 12px;
