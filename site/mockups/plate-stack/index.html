@@ -21,23 +21,36 @@
     padding:10px 13px; font-size:54px; position:relative; }
   .flip span::after { content:""; position:absolute; left:0; right:0; top:50%; height:1px; background:rgba(0,0,0,.35); }
 
-  /* ============ D1 · COMPETITION PLATFORM (daylight) ============ */
+  /* ============ D1 · COMPETITION PLATFORM (daylight, IWF-accurate) ============ */
   .d1 { background:linear-gradient(180deg,#f3ede2 0%,#e7dcc8 55%,#caa26a 56%,#b98e55 100%); color:#26221c; }
-  .d1 .round { text-align:center; padding-top:20px; font-size:13px; letter-spacing:.3em; color:#6b5d45; font-weight:700; }
-  .d1 .flip { margin-top:12px; }
+  .d1 .round { text-align:center; padding-top:18px; font-size:13px; letter-spacing:.3em; color:#6b5d45; font-weight:700; }
+  .d1 .flip { margin-top:10px; }
   .d1 .flip span { background:linear-gradient(180deg,#fffdf8 49%,#efe8da 51%); color:#26221c;
     box-shadow:0 8px 18px rgba(83,62,27,.35), inset 0 1px 0 #fff; }
-  .d1 .task { text-align:center; margin-top:12px; font-size:12.5px; font-weight:700; color:#8c2b1e; }
-  .d1 .bar { position:absolute; bottom:96px; left:6%; right:6%; height:12px; border-radius:6px;
+  .d1 .task { text-align:center; margin-top:10px; font-size:12.5px; font-weight:700; color:#8c2b1e; }
+  .d1 .bar { position:absolute; bottom:96px; left:4%; right:4%; height:11px; border-radius:5px;
     background:linear-gradient(180deg,#e8e9ec,#9a9da6 70%,#6f727b); box-shadow:0 4px 10px rgba(0,0,0,.35); }
-  .d1 .plate { position:absolute; bottom:60px; width:22px; height:86px; border-radius:6px; border:2px solid rgba(0,0,0,.25);
-    box-shadow:3px 0 6px rgba(0,0,0,.3), inset 0 0 0 3px rgba(255,255,255,.12); }
-  .d1 .p-red { background:#c8362b; } .d1 .p-blu { background:#2456b8; }
-  .d1 .p-yel { background:#e0a90f; } .d1 .p-grn { background:#2b8a4b; }
+  .d1 .sleeve { position:absolute; bottom:93px; width:15%; height:17px; border-radius:4px;
+    background:linear-gradient(180deg,#f2f3f5,#b9bcc4 65%,#8d9099); box-shadow:0 4px 8px rgba(0,0,0,.3); }
+  /* IWF discs: 25 red / 20 blue / 15 yellow / 10 green share Ø450mm; 5kg white is smaller.
+     Width scales with mass: 25kg widest. kg stamped on each disc; chrome 2.5kg collar. */
+  .d1 .plate { position:absolute; bottom:60px; border-radius:7px; border:2px solid rgba(0,0,0,.28);
+    box-shadow:3px 0 6px rgba(0,0,0,.3), inset 0 0 0 3px rgba(255,255,255,.16);
+    display:flex; align-items:center; justify-content:center;
+    color:rgba(255,255,255,.92); font-size:9px; font-weight:800; writing-mode:vertical-rl; letter-spacing:.05em;
+    text-shadow:0 1px 2px rgba(0,0,0,.5); }
+  .d1 .p25 { width:27px; height:92px; background:linear-gradient(90deg,#a02218,#cf2b31 40%,#a02218); }
+  .d1 .p20 { width:23px; height:92px; background:linear-gradient(90deg,#173f78,#2054a0 40%,#173f78); }
+  .d1 .p15 { width:20px; height:92px; background:linear-gradient(90deg,#b8860b,#f0b323 40%,#b8860b); }
+  .d1 .p10 { width:17px; height:92px; background:linear-gradient(90deg,#1f6140,#2e8b57 40%,#1f6140); }
+  .d1 .p5  { width:14px; height:64px; bottom:74px; background:linear-gradient(90deg,#cfcfc8,#f4f4f0 40%,#cfcfc8); color:#55565e; text-shadow:none; }
+  .d1 .collar { width:10px; height:34px; bottom:88px; border-radius:3px;
+    background:linear-gradient(90deg,#9a9da6,#e8e9ec 45%,#9a9da6); color:#55565e; text-shadow:none; font-size:7px; }
+  .d1 .ghost { opacity:.28; filter:saturate(.4); border-style:dashed; }
   .d1 .plate.load { animation:d1load 2.6s cubic-bezier(.34,1.56,.64,1) infinite; }
-  @keyframes d1load { 0%{transform:translateX(160px) rotate(6deg); opacity:0}
+  @keyframes d1load { 0%{transform:translateX(150px) rotate(6deg); opacity:0}
     32%{transform:none; opacity:1} 100%{transform:none; opacity:1} }
-  .d1 .legend { position:absolute; bottom:20px; left:0; right:0; text-align:center; font-size:10.5px;
+  .d1 .legend { position:absolute; bottom:20px; left:0; right:0; text-align:center; font-size:10px;
     letter-spacing:.18em; color:#6b5d45; font-weight:700; }
 
   /* ============ D2 · GARAGE GYM (moody) ============ */
@@ -118,18 +131,31 @@
 
   <div class="grid">
     <div class="card">
-      <h2 style="color:#e0a90f">D1 · COMPETITION PLATFORM</h2>
-      <p>Daylight and plywood. IWF color plates ARE the time: the whole WOD is a loaded bar, each elapsed round strips or adds a plate. Calm, legible, the least themed of the three — personality comes entirely from the object.</p>
+      <h2 style="color:#e0a90f">D1 · COMPETITION PLATFORM <span class="tag" style="background:#2b8a4b;color:#fff">refining</span></h2>
+      <p>Daylight and plywood, now <strong>IWF-accurate</strong>: 25 red / 20 blue / 15 yellow / 10 green share the same Ø450 diameter with width scaling by mass; the 5kg white is genuinely smaller; chrome 2.5kg collars close the bar. Rounds load heaviest-inboard, exactly like a real platform. Remaining rounds show as ghost plates waiting rack-side.</p>
       <div class="frame d1">
         <div class="round">ROUND 3 OF 8</div>
         <div class="flip"><span>1</span><span>4</span><span>7</span></div>
         <div class="task">12 RUSSIAN KETTLEBELL SWINGS</div>
         <div class="bar"></div>
-        <div class="plate p-red" style="left:10%"></div>
-        <div class="plate p-blu" style="left:16%"></div>
-        <div class="plate p-yel" style="right:16%"></div>
-        <div class="plate p-grn load" style="right:10%"></div>
-        <div class="legend">3 PLATES LOADED · 5 TO GO</div>
+        <div class="sleeve" style="left:4%"></div>
+        <div class="sleeve" style="right:4%"></div>
+        <!-- loaded: rounds 1-2 (pairs, heaviest inboard) -->
+        <div class="plate p25" style="left:16%">25</div>
+        <div class="plate p20" style="left:22.5%">20</div>
+        <div class="plate p25" style="right:16%">25</div>
+        <!-- round 3 loading now -->
+        <div class="plate p20 load" style="right:22.5%">20</div>
+        <!-- remaining rounds ghosted -->
+        <div class="plate p15 ghost" style="left:28%">15</div>
+        <div class="plate p10 ghost" style="left:33%">10</div>
+        <div class="plate p15 ghost" style="right:28%">15</div>
+        <div class="plate p10 ghost" style="right:33%">10</div>
+        <div class="plate p5 ghost" style="left:37.5%">5</div>
+        <!-- collars -->
+        <div class="collar" style="left:8%">2.5</div>
+        <div class="collar" style="right:8%">2.5</div>
+        <div class="legend">ROUND 3 LOADING · COLLARS ON AT FINAL 0:03</div>
       </div>
     </div>
 
@@ -171,7 +197,7 @@
 
     <div class="card">
       <h2 style="color:#c6c8cf">W · THE BUMPER PLATE (watch face)</h2>
-      <p>The unlock for the round screen: a bumper plate viewed head-on IS a circle. The rubber ring fills as the interval elapses (segments = rounds), the steel hub carries the digits like a plate stamp. One object, zero abstraction — this is the Wear OS translation of whichever D-tone wins.</p>
+      <p><span class="tag" style="background:#2b8a4b;color:#fff">greenlit — Phase 5 design target</span> A bumper plate viewed head-on IS a circle. The rubber ring fills as the interval elapses, the steel hub carries the digits like a plate stamp. Tie-in with D1's accuracy: the ring adopts the IWF color of the current round's plate (round 1 red 25s, round 2 blue 20s…), so the watch and the phone bar are literally the same object.</p>
       <div class="frame wwrap">
         <div class="bumper">
           <div class="segring"></div>

@@ -286,6 +286,43 @@ function renderLog() {
   }).join('') || '<li>NO MISSIONS ON RECORD</li>';
 }
 
+// ---------- easter egg: Konami code arms Blood Dragon skin ----------
+// Plate Stack becomes the default skin; ↑↑↓↓←→←→BA (or 10 taps on the
+// wordmark) toggles the original Blood Dragon theme. Persisted in localStorage.
+const SKIN_KEY = 'wdSkin';
+const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+let kIdx = 0;
+let tapCount = 0, tapTimer = null;
+
+function toggleBloodDragon() {
+  const armed = localStorage.getItem(SKIN_KEY) !== 'blood-dragon';
+  localStorage.setItem(SKIN_KEY, armed ? 'blood-dragon' : 'plate-stack');
+  toast(armed ? '\u{1F409} BLOOD DRAGON MODE ARMED' : 'BLOOD DRAGON MODE DISARMED');
+  if (navigator.vibrate) navigator.vibrate([80, 40, 80, 40, 200]);
+}
+
+function toast(msg) {
+  let t = $('#toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'toast';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.classList.remove('show'); void t.offsetWidth;
+  t.classList.add('show');
+}
+
+window.addEventListener('keydown', (e) => {
+  const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+  if (k === KONAMI[kIdx]) {
+    kIdx += 1;
+    if (kIdx === KONAMI.length) { kIdx = 0; toggleBloodDragon(); }
+  } else {
+    kIdx = k === KONAMI[0] ? 1 : 0;
+  }
+});
+
 // ---------- boot ----------
 document.addEventListener('DOMContentLoaded', () => {
   renderFields();
@@ -293,6 +330,14 @@ document.addEventListener('DOMContentLoaded', () => {
   renderLog();
   $$('.tab').forEach(t => t.addEventListener('click', () => setMode(t.dataset.mode)));
   $('#engage').addEventListener('click', engage);
+  // mobile Konami: 10 quick taps on the wordmark
+  const mark = document.querySelector('h1.wordmark');
+  if (mark) mark.addEventListener('pointerdown', () => {
+    tapCount += 1;
+    clearTimeout(tapTimer);
+    tapTimer = setTimeout(() => { tapCount = 0; }, 1200);
+    if (tapCount >= 10) { tapCount = 0; toggleBloodDragon(); }
+  });
   $$('.tapzone').forEach(z => z.addEventListener('pointerdown', tapZone));
   $$('.abort').forEach(b => b.addEventListener('click', () => { if (run) { Engine.abort(run, Date.now()); endRun('aborted'); } }));
   setFace('work', 'STANDBY', '0:00', 'CONFIGURE MISSION AND ENGAGE', '');
