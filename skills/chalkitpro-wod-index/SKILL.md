@@ -43,7 +43,7 @@ Token file: `~/.config/chalkitpro/token` (chmod 600). If missing/expired, the sc
 
 ## Gotchas
 
-- API day fetch is `wods/{trackId}/{userId}/{MM-dd-yyyy}/0/0/{MM-dd-yyyy}%2020:00:00`; the two middle params are ignored by the server. Identity comes from `auth/getUserInfo` (do not hardcode: user 139658 / track 55447 are the current values but the script resolves them fresh).
+- API day fetch is `wods/{trackId}/{userId}/{MM-dd-yyyy}/0/0/{MM-dd-yyyy}%2020:00:00`; the two middle params are ignored by the server. Identity (user id, track id) comes from `auth/getUserInfo` at runtime; never hardcode account identifiers.
 - `scoreStyle`/`timeCapSeconds` fields are unreliable; trust the description text.
 - Titles matching warm-up/accessory/prep/primer/PRVN Reset are marked not timer-relevant; don't surface them in timer answers unless asked.
 - Occasional days 404/parse-fail on the API; the script skips them: rerun later rather than treating as rest days.

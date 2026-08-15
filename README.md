@@ -22,15 +22,16 @@ node --test 'site/tests/*.test.js'   # engine tests
 
 ## Deploy
 
-```bash
-quick deploy site wod-dragon    # -> wod-dragon.quick.shopify.io
-```
+Pushes to `main` that touch `site/**` auto-deploy to GitHub Pages:
+**https://tsira.github.io/wod-dragon/**
+
+(`.github/workflows/pages.yml`; `quick serve` remains the local dev loop.)
 
 ## Daily preset flow
 
 ```bash
 python3 scripts/index-wods.py --emit-presets   # sync corpus, regen site/presets.js from today's WOD
-quick deploy site wod-dragon
+git commit -am 'presets: <date>' && git push   # Pages redeploys automatically
 ```
 
 Auth: Chalk It Pro JWT in `~/.config/chalkitpro/token` (chmod 600). Copy `jwt_access_token` from browser localStorage after logging in at app.chalkitpro.com. Never commit tokens.
