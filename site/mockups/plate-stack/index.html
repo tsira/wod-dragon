@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PLATE STACK — Iterations</title>
+<style>
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:#141216; color:#eee; font-family:ui-rounded,'SF Pro Rounded',ui-monospace,Menlo,monospace; padding:28px 16px 80px; }
+  h1 { text-align:center; font-size:22px; letter-spacing:.12em; margin-bottom:4px; }
+  .sub { text-align:center; color:#999; font-size:11px; letter-spacing:.25em; margin-bottom:30px; }
+  .grid { display:flex; flex-wrap:wrap; gap:28px; justify-content:center; max-width:1300px; margin:0 auto; }
+  .card { width:380px; }
+  .card h2 { font-size:14px; letter-spacing:.12em; margin-bottom:4px; }
+  .card p { font-size:11.5px; color:#a8a8a8; line-height:1.55; margin:6px 0 10px; }
+  .frame { height:380px; border-radius:22px; overflow:hidden; position:relative; box-shadow:0 18px 44px rgba(0,0,0,.55); }
+
+  /* ---------- shared flip digits ---------- */
+  .flip { display:flex; justify-content:center; gap:7px; }
+  .flip span { border-radius:10px; font-weight:800; font-variant-numeric:tabular-nums;
+    padding:10px 13px; font-size:54px; position:relative; }
+  .flip span::after { content:""; position:absolute; left:0; right:0; top:50%; height:1px; background:rgba(0,0,0,.35); }
+
+  /* ============ D1 · COMPETITION PLATFORM (daylight) ============ */
+  .d1 { background:linear-gradient(180deg,#f3ede2 0%,#e7dcc8 55%,#caa26a 56%,#b98e55 100%); color:#26221c; }
+  .d1 .round { text-align:center; padding-top:20px; font-size:13px; letter-spacing:.3em; color:#6b5d45; font-weight:700; }
+  .d1 .flip { margin-top:12px; }
+  .d1 .flip span { background:linear-gradient(180deg,#fffdf8 49%,#efe8da 51%); color:#26221c;
+    box-shadow:0 8px 18px rgba(83,62,27,.35), inset 0 1px 0 #fff; }
+  .d1 .task { text-align:center; margin-top:12px; font-size:12.5px; font-weight:700; color:#8c2b1e; }
+  .d1 .bar { position:absolute; bottom:96px; left:6%; right:6%; height:12px; border-radius:6px;
+    background:linear-gradient(180deg,#e8e9ec,#9a9da6 70%,#6f727b); box-shadow:0 4px 10px rgba(0,0,0,.35); }
+  .d1 .plate { position:absolute; bottom:60px; width:22px; height:86px; border-radius:6px; border:2px solid rgba(0,0,0,.25);
+    box-shadow:3px 0 6px rgba(0,0,0,.3), inset 0 0 0 3px rgba(255,255,255,.12); }
+  .d1 .p-red { background:#c8362b; } .d1 .p-blu { background:#2456b8; }
+  .d1 .p-yel { background:#e0a90f; } .d1 .p-grn { background:#2b8a4b; }
+  .d1 .plate.load { animation:d1load 2.6s cubic-bezier(.34,1.56,.64,1) infinite; }
+  @keyframes d1load { 0%{transform:translateX(160px) rotate(6deg); opacity:0}
+    32%{transform:none; opacity:1} 100%{transform:none; opacity:1} }
+  .d1 .legend { position:absolute; bottom:20px; left:0; right:0; text-align:center; font-size:10.5px;
+    letter-spacing:.18em; color:#6b5d45; font-weight:700; }
+
+  /* ============ D2 · GARAGE GYM (moody) ============ */
+  .d2 { background:radial-gradient(ellipse 90% 60% at 50% 0%, #3a3730 0%, #191713 60%, #0d0c0a 100%); color:#efe9db; }
+  .d2 .lamp { position:absolute; top:0; left:50%; transform:translateX(-50%); width:220px; height:150px;
+    background:radial-gradient(ellipse at top, rgba(255,196,110,.28), transparent 70%); }
+  .d2 .round { text-align:center; padding-top:22px; font-size:12px; letter-spacing:.35em; color:#c9b88a; }
+  .d2 .flip { margin-top:14px; }
+  .d2 .flip span { background:linear-gradient(180deg,#2c2a26 49%,#201e1a 51%); color:#ffcf7d;
+    box-shadow:0 10px 22px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,207,125,.18); text-shadow:0 0 14px rgba(255,207,125,.35); }
+  .d2 .task { text-align:center; margin-top:12px; font-size:12px; color:#d8cdb4; }
+  .d2 .bar { position:absolute; bottom:100px; left:8%; right:8%; height:11px; border-radius:5px;
+    background:linear-gradient(180deg,#8d8d8d,#4c4c4c 70%,#2e2e2e); box-shadow:0 4px 12px rgba(0,0,0,.8); }
+  .d2 .plate { position:absolute; bottom:64px; width:20px; height:84px; border-radius:5px;
+    background:linear-gradient(180deg,#232323,#0f0f0f); border:2px solid #000;
+    box-shadow:2px 0 6px rgba(0,0,0,.8), inset 0 0 0 2px rgba(255,255,255,.06); }
+  .d2 .chalk { position:absolute; width:7px; height:7px; border-radius:50%; background:rgba(240,235,220,.5);
+    filter:blur(1.5px); animation:puff 3s ease-out infinite; }
+  @keyframes puff { 0%{transform:none; opacity:0} 12%{opacity:.85}
+    100%{transform:translate(-26px,-64px) scale(2.6); opacity:0} }
+  .d2 .legend { position:absolute; bottom:22px; left:0; right:0; text-align:center; font-size:10px;
+    letter-spacing:.22em; color:#8f8265; }
+
+  /* ============ D3 · TOY BARBELL (Not Boring-est) ============ */
+  .d3 { background:linear-gradient(160deg,#ffb37b 0%,#ff7d9c 45%,#8f6cf0 100%); color:#2b1b4d;
+    font-family:ui-rounded,'SF Pro Rounded','Arial Rounded MT Bold',sans-serif; }
+  .d3 .round { text-align:center; padding-top:18px; font-size:14px; font-weight:900; letter-spacing:.2em; color:#fff;
+    text-shadow:0 2px 0 rgba(0,0,0,.15); }
+  .d3 .big { text-align:center; margin-top:2px; font-size:88px; font-weight:900; color:#fff; letter-spacing:.02em;
+    text-shadow:0 6px 0 rgba(94,44,165,.45), 0 14px 30px rgba(0,0,0,.25); font-variant-numeric:tabular-nums; }
+  .d3 .task { text-align:center; font-size:13px; font-weight:800; color:#3c2570;
+    background:rgba(255,255,255,.55); border-radius:999px; width:max-content; max-width:86%;
+    margin:6px auto 0; padding:6px 16px; box-shadow:0 4px 0 rgba(0,0,0,.08); }
+  .d3 .bar { position:absolute; bottom:104px; left:7%; right:7%; height:16px; border-radius:8px;
+    background:linear-gradient(180deg,#fff,#cfd4ff 65%,#a9aee0); box-shadow:0 8px 0 rgba(94,44,165,.25); }
+  .d3 .plate { position:absolute; bottom:62px; width:30px; height:100px; border-radius:14px;
+    box-shadow:0 10px 0 rgba(94,44,165,.28), inset 0 -8px 0 rgba(0,0,0,.12), inset 0 4px 0 rgba(255,255,255,.35); }
+  .d3 .t1 { background:#ff5d73; } .d3 .t2 { background:#ffc94d; }
+  .d3 .t3 { background:#4dd68a; } .d3 .t4 { background:#5aa7ff; }
+  .d3 .plate.drop { animation:d3drop 2.2s cubic-bezier(.3,1.8,.5,1) infinite; }
+  @keyframes d3drop { 0%{transform:translateY(-220px) rotate(-10deg)} 34%{transform:none}
+    42%{transform:translateY(-9px)} 50%{transform:none} 100%{transform:none} }
+  .d3 .tap { position:absolute; bottom:18px; left:50%; transform:translateX(-50%);
+    background:#fff; color:#7048d8; font-weight:900; font-size:13px; letter-spacing:.15em;
+    padding:11px 26px; border-radius:999px; box-shadow:0 6px 0 rgba(94,44,165,.35);
+    animation:squish 1.6s ease-in-out infinite; }
+  @keyframes squish { 0%,100%{transform:translateX(-50%) scale(1)} 50%{transform:translateX(-50%) scale(1.06,.94)} }
+
+  /* ============ W · WATCH FACE: THE BUMPER PLATE ============ */
+  .wwrap { display:flex; align-items:center; justify-content:center; background:#17141b; }
+  .bumper { width:290px; height:290px; border-radius:50%; position:relative;
+    background:radial-gradient(circle at 38% 30%, #3b3b40, #232327 60%, #161619);
+    box-shadow:0 18px 40px rgba(0,0,0,.7), inset 0 2px 4px rgba(255,255,255,.1); }
+  .bumper .segring { position:absolute; inset:8px; border-radius:50%;
+    background:conic-gradient(#ff5d73 0deg 135deg, rgba(255,255,255,.09) 135deg 360deg);
+    -webkit-mask:radial-gradient(circle, transparent 63%, #000 64.5%); mask:radial-gradient(circle, transparent 63%, #000 64.5%);
+    animation:fill 8s linear infinite; }
+  @keyframes fill { from{background:conic-gradient(#ff5d73 0deg 0deg, rgba(255,255,255,.09) 0deg 360deg)}
+    to{background:conic-gradient(#ff5d73 0deg 360deg, rgba(255,255,255,.09) 360deg 360deg)} }
+  .bumper .hub { position:absolute; inset:66px; border-radius:50%;
+    background:radial-gradient(circle at 40% 32%, #efeff2, #c6c8cf 70%, #9fa2ab);
+    box-shadow:inset 0 2px 3px #fff, inset 0 -6px 12px rgba(0,0,0,.25), 0 4px 14px rgba(0,0,0,.5);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; color:#1d1d22; }
+  .bumper .hub .t { font-size:42px; font-weight:900; font-variant-numeric:tabular-nums; }
+  .bumper .hub .r { font-size:10px; font-weight:800; letter-spacing:.25em; color:#7a2e26; }
+  .bumper .hub .s { font-size:8.5px; font-weight:700; letter-spacing:.08em; color:#55565e; text-align:center; padding:0 14px; }
+  .bumper .stamp { position:absolute; bottom:34px; left:0; right:0; text-align:center; font-size:9px;
+    letter-spacing:.4em; color:rgba(255,255,255,.35); font-weight:800; }
+
+  .notes { max-width:880px; margin:44px auto 0; font-size:12px; color:#a8a8a8; line-height:1.7; }
+  .notes h3 { color:#ffc94d; letter-spacing:.15em; font-size:13px; margin:18px 0 6px; }
+  a { color:#5aa7ff; }
+</style>
+</head>
+<body>
+  <h1>PLATE STACK — ITERATIONS</h1>
+  <div class="sub">TIME AS LOAD · THREE TONES + THE WATCH FACE · <a href="../">back to all directions</a></div>
+
+  <div class="grid">
+    <div class="card">
+      <h2 style="color:#e0a90f">D1 · COMPETITION PLATFORM</h2>
+      <p>Daylight and plywood. IWF color plates ARE the time: the whole WOD is a loaded bar, each elapsed round strips or adds a plate. Calm, legible, the least themed of the three — personality comes entirely from the object.</p>
+      <div class="frame d1">
+        <div class="round">ROUND 3 OF 8</div>
+        <div class="flip"><span>1</span><span>4</span><span>7</span></div>
+        <div class="task">12 RUSSIAN KETTLEBELL SWINGS</div>
+        <div class="bar"></div>
+        <div class="plate p-red" style="left:10%"></div>
+        <div class="plate p-blu" style="left:16%"></div>
+        <div class="plate p-yel" style="right:16%"></div>
+        <div class="plate p-grn load" style="right:10%"></div>
+        <div class="legend">3 PLATES LOADED · 5 TO GO</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="color:#ffcf7d">D2 · GARAGE GYM</h2>
+      <p>Midnight garage under one warm lamp. Amber flip digits, steel bar, black bumpers, chalk dust puffs on every round transition. Moody but honest — closest in spirit to training alone at 6am.</p>
+      <div class="frame d2">
+        <div class="lamp"></div>
+        <div class="round">ROUND 3 / 8</div>
+        <div class="flip"><span>1</span><span>4</span><span>7</span></div>
+        <div class="task">12 Russian Kettlebell Swings</div>
+        <div class="bar"></div>
+        <div class="plate" style="left:12%"></div>
+        <div class="plate" style="left:18%"></div>
+        <div class="plate" style="right:18%"></div>
+        <div class="plate" style="right:12%"></div>
+        <div class="chalk" style="bottom:150px; right:14%"></div>
+        <div class="chalk" style="bottom:150px; right:17%; animation-delay:.5s"></div>
+        <div class="chalk" style="bottom:146px; right:12%; animation-delay:1.1s"></div>
+        <div class="legend">CHALK UP · NEXT ROUND IN 0:13</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="color:#ff5d73">D3 · TOY BARBELL</h2>
+      <p>The full Not Boring: claymation plates with cartoon physics that THUD in with an overshoot bounce, a squishy tap button, sunset gradient. Loud, readable, joyful — the timer as a toy you want to pick up. Sound design goes foley: plate clank, collar spin, chalk clap.</p>
+      <div class="frame d3">
+        <div class="round">ROUND 3 OF 8</div>
+        <div class="big">1:47</div>
+        <div class="task">12 KB SWINGS</div>
+        <div class="bar"></div>
+        <div class="plate t1" style="left:9%"></div>
+        <div class="plate t2" style="left:17%"></div>
+        <div class="plate t3" style="right:17%"></div>
+        <div class="plate t4 drop" style="right:9%"></div>
+        <div class="tap">TAP = ROUND</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="color:#c6c8cf">W · THE BUMPER PLATE (watch face)</h2>
+      <p>The unlock for the round screen: a bumper plate viewed head-on IS a circle. The rubber ring fills as the interval elapses (segments = rounds), the steel hub carries the digits like a plate stamp. One object, zero abstraction — this is the Wear OS translation of whichever D-tone wins.</p>
+      <div class="frame wwrap">
+        <div class="bumper">
+          <div class="segring"></div>
+          <div class="hub">
+            <div class="r">ROUND 3/8</div>
+            <div class="t">1:47</div>
+            <div class="s">12 KB SWINGS</div>
+          </div>
+          <div class="stamp">WOD DRAGON · 20KG</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="notes">
+    <h3>THE CORE MECHANIC (ALL TONES)</h3>
+    Time is load. A WOD compiles to a bar: total segments = total plates. Countdown modes strip plates; count-up modes load them; the collar snaps on for the final 3 seconds; hitting a time cap doesn't stop — the bar "flips" and red overtime plates load (Not Boring's count-past-zero). Rest = bar on the ground, chalk cloud. Abort = bail the bar (plates scatter, thud).
+    <h3>SOUND DIRECTION SHIFT</h3>
+    This skin retires the square-wave beeps: foley instead. Round transition = plate clank; segment start = collar spin-click; final 3s = knurling scrape ticks; finish = the unmistakable sound of a loaded bar dropped from overhead. Haptics mirror the weight (heavier event = longer/harder pattern).
+    <h3>WHAT TO DECIDE</h3>
+    1. Which tone: D1 platform / D2 garage / D3 toy? 2. Keep Blood Dragon as an alt skin or retire it? 3. Greenlight the bumper-plate watch face as the Phase 5 design target?
+  </div>
+</body>
+</html>
