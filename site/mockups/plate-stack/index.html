@@ -132,7 +132,7 @@
   <div class="grid">
     <div class="card">
       <h2 style="color:#e0a90f">D1 · COMPETITION PLATFORM <span class="tag" style="background:#2b8a4b;color:#fff">refining</span></h2>
-      <p>Daylight and plywood, now <strong>IWF-accurate</strong>: 25 red / 20 blue / 15 yellow / 10 green share the same Ø450 diameter with width scaling by mass; the 5kg white is genuinely smaller; chrome 2.5kg collars close the bar. Rounds load heaviest-inboard, exactly like a real platform. Remaining rounds show as ghost plates waiting rack-side.</p>
+      <p>Daylight and plywood, <strong>IWF-accurate</strong> and now with the <strong>ascending-load mechanic</strong>: the session starts light and works up — each round the bar is re-loaded to the next increment (plates come OFF and heavier ones go ON, real plate-math). Round 3 of 8 = yellows going on; the reds are the final-round top set waiting rack-side. Collars close the bar for the last 3 seconds.</p>
       <div class="frame d1">
         <div class="round">ROUND 3 OF 8</div>
         <div class="flip"><span>1</span><span>4</span><span>7</span></div>
@@ -140,22 +140,21 @@
         <div class="bar"></div>
         <div class="sleeve" style="left:4%"></div>
         <div class="sleeve" style="right:4%"></div>
-        <!-- loaded: rounds 1-2 (pairs, heaviest inboard) -->
-        <div class="plate p25" style="left:16%">25</div>
-        <div class="plate p20" style="left:22.5%">20</div>
-        <div class="plate p25" style="right:16%">25</div>
-        <!-- round 3 loading now -->
-        <div class="plate p20 load" style="right:22.5%">20</div>
-        <!-- remaining rounds ghosted -->
-        <div class="plate p15 ghost" style="left:28%">15</div>
-        <div class="plate p10 ghost" style="left:33%">10</div>
-        <div class="plate p15 ghost" style="right:28%">15</div>
-        <div class="plate p10 ghost" style="right:33%">10</div>
-        <div class="plate p5 ghost" style="left:37.5%">5</div>
+        <!-- round 3 of 8: ascending — bar re-loaded to yellows (15s) -->
+        <div class="plate p15" style="left:16%">15</div>
+        <div class="plate p15 load" style="right:16%">15</div>
+        <!-- just unloaded (round 2's greens) sliding away, faded -->
+        <div class="plate p10 ghost" style="left:26%">10</div>
+        <div class="plate p10 ghost" style="right:26%">10</div>
+        <!-- heavier rounds waiting rack-side -->
+        <div class="plate p20 ghost" style="left:33%">20</div>
+        <div class="plate p25 ghost" style="left:38%">25</div>
+        <div class="plate p20 ghost" style="right:33%">20</div>
+        <div class="plate p25 ghost" style="right:38%">25</div>
         <!-- collars -->
         <div class="collar" style="left:8%">2.5</div>
         <div class="collar" style="right:8%">2.5</div>
-        <div class="legend">ROUND 3 LOADING · COLLARS ON AT FINAL 0:03</div>
+        <div class="legend">LOAD CLIMBS EVERY ROUND · TOP SET = FINAL ROUND · COLLARS ON AT 0:03</div>
       </div>
     </div>
 
@@ -211,6 +210,31 @@
       </div>
     </div>
   </div>
+
+  <div class="grid" style="margin-top:34px">
+    <div class="card" style="width:790px">
+      <h2 style="color:#4dd68a">FOLEY LAB · audition the cue sounds</h2>
+      <p>Procedurally synthesized in WebAudio (interim while AI-SFX tooling is down) — zero assets, tuneable per-parameter. Tap to play:</p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap">
+        <button class="sfx" data-fn="plateClank">🏋️ PLATE CLANK · round</button>
+        <button class="sfx" data-fn="collarClick">🔩 COLLAR CLICK · segment start</button>
+        <button class="sfx" data-fn="knurlTick">⚡ KNURL TICK · final 3s</button>
+        <button class="sfx" data-fn="chalkClap">🫱 CHALK CLAP · rest</button>
+        <button class="sfx" data-fn="barDrop">💥 BAR DROP · finish</button>
+      </div>
+    </div>
+  </div>
+  <style>
+    .sfx { font-family:inherit; font-weight:800; font-size:12px; letter-spacing:.08em; cursor:pointer;
+      background:#1f1c24; color:#efe9db; border:2px solid #4dd68a; border-radius:10px; padding:12px 16px; }
+    .sfx:active { transform:scale(.96); background:#28313f; }
+  </style>
+  <script src="../../sfx.js"></script>
+  <script>
+    document.querySelectorAll('.sfx').forEach(b => b.addEventListener('click', () => {
+      Foley.unlock(); Foley[b.dataset.fn]();
+    }));
+  </script>
 
   <div class="notes">
     <h3>THE CORE MECHANIC (ALL TONES)</h3>
